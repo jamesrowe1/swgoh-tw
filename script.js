@@ -1,75 +1,162 @@
 const submit=$("#submit")
-const yourGuildResults=$("yourGuildResults")
-const oppGuildResults=$("oppGuildResults")
+const yourGuildResults=$("#yourGuildResults")
+const oppGuildResults=$("#oppGuildResults")
+const yourGuildID=$("#yourGuildID")
+const oppGuildID=$("#oppGuildID")
 
-let numMembers;
-let squadRank;
-let numZetas = 0;
-let totalGP;
-let g11AboveSpeed;
-let numG12;
-let numG13;
-let numGLRey=0;
-let numGLKylo=0;
-let numGAS=0;
-let numJKL=0;
-let numDR=0;
-let numMalak=0;
-let numJKR=0;
-let numWat=0;
-let numNegotiator=0;
-let numMalevolence=0;
+//your variables
+let yourInfo={
+    numMembers: 0,
+    squadRank: 0,
+    numZetas: 0,
+    totalGP: 0,
+    g11AboveSpeed: 0,
+    numG12: 0,
+    numG13: 0,
+    numGLRey: 0,
+    numGLKylo: 0,
+    numGAS: 0,
+    numJKL: 0,
+    numDR: 0,
+    numMalak: 0,
+    numJKR: 0,
+    numWat: 0,
+    numNegotiator: 0,
+    numMalevolence: 0,
+};
+
+//opponents variables
+let oppInfo={
+    numMembers: 0,
+    squadRank: 0,
+    numZetas: 0,
+    totalGP: 0,
+    g11AboveSpeed: 0,
+    numG12: 0,
+    numG13: 0,
+    numGLRey: 0,
+    numGLKylo: 0,
+    numGAS: 0,
+    numJKL: 0,
+    numDR: 0,
+    numMalak: 0,
+    numJKR: 0,
+    numWat: 0,
+    numNegotiator: 0,
+    numMalevolence: 0,
+};
 
 document.getElementById("submit").addEventListener("click", function(event){
     event.preventDefault()
-    $.ajax("https://cors-anywhere.herokuapp.com/https://swgoh.gg/api/guild/21201/").then(data => {
+    console.log(oppGuildID.val())
+    $.ajax("https://cors-anywhere.herokuapp.com/https://swgoh.gg/api/guild/" + yourGuildID.val()).then(data => {
         console.log(data)
-        numMembers=data.data.member_count;
-        console.log("members " + numMembers)
+        yourInfo.numMembers=data.data.member_count;
+        console.log("members " + yourInfo.numMembers)
         data.players.forEach(player => {
             player.units.forEach(unit => {
                 unit.data.ability_data.forEach(ability => {
                     if (ability.is_zeta===true && ability.ability_tier===ability.tier_max) {
-                        numZetas++;
+                        yourInfo.numZetas++;
                     }
                 });
                 switch(unit.data.base_id) {
                     case "GLREY":
-                        numGLRey++;
+                        yourInfo.numGLRey++;
                         break;
                     case "GLKYLO":
-                        numGLKylo++;
+                        yourInfo.numGLKylo++;
                         break;
                     case "GENERALSKYWALKER":
-                        numGAS++;
+                        yourInfo.numGAS++;
                         break;
                     case "JEDIKNIGHTLUKE":
-                        numJKL++;
+                        yourInfo.numJKL++;
                         break;
                     case "DARTHREVAN":
-                        numDR++;
+                        yourInfo.numDR++;
                         break;
                     case "DARTHMALAK":
-                        numMalak++;
+                        yourInfo.numMalak++;
                         break;
                     case "JEDIKNIGHTREVAN":
-                        numJKR++;
+                        yourInfo.numJKR++;
                         break;
                     case "WATTAMBOR":
-                        numWat++;
+                        yourInfo.numWat++;
                         break;
                     case "WATTAMBOR":
-                        numNegotiator++;
+                        yourInfo.numNegotiator++;
                         break;
                     case "WATTAMBOR":
-                        numMalevolence++;
+                        yourInfo.numMalevolence++;
                         break;
                     default:
                         break;
                     }
             });
         });
-        console.log("members " + numMembers)
-        console.log("zetas " + numZetas)
+        console.log("members " + yourInfo.numMembers)
+        console.log("zetas " + yourInfo.numZetas)
+        console.log(oppGuildID.val())
+
+    $.ajax("https://cors-anywhere.herokuapp.com/https://swgoh.gg/api/guild/" + oppGuildID.val()).then(data => {    
+    console.log(data)
+        oppInfo.numMembers=data.data.member_count;
+        console.log("members " + oppInfo.numMembers)
+        data.players.forEach(player => {
+            player.units.forEach(unit => {
+                unit.data.ability_data.forEach(ability => {
+                    if (ability.is_zeta===true && ability.ability_tier===ability.tier_max) {
+                        oppInfo.numZetas++;
+                    }
+                });
+                switch(unit.data.base_id) {
+                    case "GLREY":
+                        oppInfo.numGLRey++;
+                        break;
+                    case "GLKYLO":
+                        oppInfo.numGLKylo++;
+                        break;
+                    case "GENERALSKYWALKER":
+                        oppInfo.numGAS++;
+                        break;
+                    case "JEDIKNIGHTLUKE":
+                        oppInfo.numJKL++;
+                        break;
+                    case "DARTHREVAN":
+                        oppInfo.numDR++;
+                        break;
+                    case "DARTHMALAK":
+                        oppInfo.numMalak++;
+                        break;
+                    case "JEDIKNIGHTREVAN":
+                        oppInfo.numJKR++;
+                        break;
+                    case "WATTAMBOR":
+                        oppInfo.numWat++;
+                        break;
+                    case "WATTAMBOR":
+                        oppInfo.numNegotiator++;
+                        break;
+                    case "WATTAMBOR":
+                        oppInfo.numMalevolence++;
+                        break;
+                    default:
+                        break;
+                    }
+            });
+        });
+        console.log("members " + yourInfo.numMembers)
+        console.log("zetas " + yourInfo.numZetas)
+        console.log("gas " + oppInfo.numGAS)
     })
+    console.log(yourInfo)
+    console.log(oppInfo)
+    })
+    
 })
+
+function renderIfno() {
+
+}
