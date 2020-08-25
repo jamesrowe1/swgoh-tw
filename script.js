@@ -48,11 +48,9 @@ let oppInfo={
 
 document.getElementById("submit").addEventListener("click", function(event){
     event.preventDefault()
-    console.log(oppGuildID.val())
     $.ajax("https://cors-anywhere.herokuapp.com/https://swgoh.gg/api/guild/" + yourGuildID.val()).then(data => {
-        console.log(data)
-        yourInfo.numMembers=data.data.member_count;
-        console.log("members " + yourInfo.numMembers)
+    console.log(data)    
+    yourInfo.numMembers=data.data.member_count;
         data.players.forEach(player => {
             player.units.forEach(unit => {
                 unit.data.ability_data.forEach(ability => {
@@ -64,7 +62,7 @@ document.getElementById("submit").addEventListener("click", function(event){
                     case "GLREY":
                         yourInfo.numGLRey++;
                         break;
-                    case "GLKYLO":
+                    case "SUPREMELEADERKYLOREN":
                         yourInfo.numGLKylo++;
                         break;
                     case "GENERALSKYWALKER":
@@ -96,14 +94,12 @@ document.getElementById("submit").addEventListener("click", function(event){
                     }
             });
         });
-        console.log("members " + yourInfo.numMembers)
-        console.log("zetas " + yourInfo.numZetas)
-        console.log(oppGuildID.val())
+
 
     $.ajax("https://cors-anywhere.herokuapp.com/https://swgoh.gg/api/guild/" + oppGuildID.val()).then(data => {    
-    console.log(data)
+
         oppInfo.numMembers=data.data.member_count;
-        console.log("members " + oppInfo.numMembers)
+
         data.players.forEach(player => {
             player.units.forEach(unit => {
                 unit.data.ability_data.forEach(ability => {
@@ -147,16 +143,21 @@ document.getElementById("submit").addEventListener("click", function(event){
                     }
             });
         });
-        console.log("members " + yourInfo.numMembers)
-        console.log("zetas " + yourInfo.numZetas)
-        console.log("gas " + oppInfo.numGAS)
+
+
+        renderInfo()
     })
-    console.log(yourInfo)
-    console.log(oppInfo)
     })
     
 })
 
-function renderIfno() {
-
+function renderInfo() {
+    for (const key in yourInfo) {
+        console.log(`${key}: ${yourInfo[key]}`)
+        yourGuildResults.append(`<li>${key}: ${yourInfo[key]}</li>`)
+    }
+    for (const key in oppInfo) {
+        console.log(`${key}: ${yourInfo[key]}`)
+        oppGuildResults.append(`<li>${key}: ${oppInfo[key]}</li>`)
+    }
 }
